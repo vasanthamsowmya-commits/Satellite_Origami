@@ -1,0 +1,497 @@
+[
+  {
+    "id": "orig_001",
+    "topic": "Miura-ori fold",
+    "text": "The Miura-ori is a rigid origami fold pattern invented by Koryo Miura. It consists of parallelogram tiles arranged so the entire sheet folds and unfolds in a single motion along one degree of freedom. It achieves packing ratios of 10:1 to 40:1 making it ideal for satellite solar arrays, sunshields, and deployable panels. The Miura-ori is rigidly foldable meaning facets do not bend during deployment."
+  },
+  {
+    "id": "orig_002",
+    "topic": "Flasher fold pattern",
+    "text": "The Flasher fold is a rotational origami pattern that compacts a large flat disk into a tight cylinder. It is used for circular solar arrays and large-aperture antenna reflectors. The Flasher achieves higher packing density than Miura-ori for circular geometries. JAXA used a Flasher-derived pattern for the IKAROS solar sail."
+  },
+  {
+    "id": "orig_003",
+    "topic": "Kresling pattern",
+    "text": "The Kresling pattern is a helical origami cylinder with bistable properties. It stores axial and torsional strain energy and can snap between two stable states. Used in deployable booms, soft actuators, and vibration isolation mounts for satellites. ETH Zurich research has explored Kresling-based deployable structures for CubeSats."
+  },
+  {
+    "id": "orig_004",
+    "topic": "Yoshimura pattern",
+    "text": "The Yoshimura buckling pattern forms naturally in thin cylindrical shells under axial compression. It is used intentionally in deployable booms and collapsible tubes for satellites. Yoshimura tubes collapse axially while preserving hoop stiffness, making them ideal for antenna booms and lightweight structural columns in small satellites."
+  },
+  {
+    "id": "orig_005",
+    "topic": "Waterbomb base",
+    "text": "The waterbomb base is formed by folding along both diagonals and the horizontal midline. Its bistable geometry allows snapping between two stable states. Used in satellite airbag shock absorbers, inflatable deployable structures, and latching mechanisms. The waterbomb pattern scales well from CubeSat to large platform applications."
+  },
+  {
+    "id": "orig_006",
+    "topic": "Star fold pattern",
+    "text": "The star fold pattern arranges triangular facets radially around a central hub. It is used for circular solar arrays and deployable apertures. Star folds achieve very high packing ratios for disk-shaped panels. Used by NASA in the Starshade occulter concept for exoplanet imaging missions."
+  },
+  {
+    "id": "orig_007",
+    "topic": "Degree-4 vertex mechanics",
+    "text": "Most practical origami for satellites use degree-4 vertices where four fold lines meet at one point. Kawasaki's theorem requires alternating angles sum to 180 degrees for flat foldability. Degree-4 vertices have exactly one degree of freedom enabling predictable single-motion deployment critical for reliable satellite mechanisms."
+  },
+  {
+    "id": "orig_008",
+    "topic": "Rigid foldability condition",
+    "text": "A crease pattern is rigidly foldable if it folds continuously with no facet bending, only rotation at crease lines. Rigid foldability is essential for satellite panels made of stiff carbon fiber composites. Global rigid foldability checking is NP-hard but local vertex conditions can be checked analytically."
+  },
+  {
+    "id": "orig_009",
+    "topic": "Packing ratio mathematics",
+    "text": "Packing ratio is deployed area divided by stowed cross-section area. For Miura-ori it scales as O(n squared) where n is folds per side. CubeSat solar arrays achieve 10:1 to 40:1 ratios. Higher packing increases fold cycle count and material fatigue requirements. Optimal packing ratio balances mass, stiffness, and reliability."
+  },
+  {
+    "id": "orig_010",
+    "topic": "Crease pattern graph representation",
+    "text": "A crease pattern can be represented as a graph where nodes are vertices and edges are fold lines. Each fold line is labeled mountain or valley. The ETH Zurich dataset uses this graph representation with 25 nodes and 45 edges per pattern. Graph neural networks process this structure to classify and generate new fold patterns."
+  },
+  {
+    "id": "comm_001",
+    "topic": "Communication satellite overview",
+    "text": "Communication satellites relay television, telephone, internet, and data signals between ground stations. They operate in geostationary orbit at 35786 km altitude where they appear fixed over one location. They require large solar arrays for power generation up to 20 kilowatts and large antenna reflectors up to 12 meters."
+  },
+  {
+    "id": "comm_002",
+    "topic": "Communication satellite solar arrays origami",
+    "text": "Geostationary communication satellites use origami-folded solar arrays to achieve high power in compact launch volume. Modern platforms like Boeing 702 and Airbus Eurostar use Miura-ori derived fold patterns for their solar wings. Arrays deploy to 30 to 80 square meters from a stowed volume of under 2 cubic meters."
+  },
+  {
+    "id": "comm_003",
+    "topic": "AstroMesh deployable antenna",
+    "text": "The AstroMesh reflector by Northrop Grumman uses an origami-inspired geodesic structure to achieve 12 meter aperture stowed in 0.6 meter diameter cylinder. The mesh surface is wrapped using a Miura-ori derived pattern. Used on Thuraya, Inmarsat, and LightSail communication satellites for high-gain antenna reflectors."
+  },
+  {
+    "id": "comm_004",
+    "topic": "Communication satellite antenna deployment",
+    "text": "Large deployable mesh antennas for communication satellites use origami rib-and-hub designs. Fold patterns derived from Miura-ori wrap the mesh surface compactly. The antenna must deploy to precise shape within 0.5 mm surface accuracy for Ka-band frequencies. Thermal cycling from minus 180 to plus 150 Celsius requires materials with near-zero coefficient of thermal expansion."
+  },
+  {
+    "id": "comm_005",
+    "topic": "Geostationary communication satellite structure",
+    "text": "Communication satellites in geostationary orbit have bus structures of carbon fiber honeycomb panels. Solar arrays use CFRP panel hinges with elastomer fold lines. The antenna farm includes multiple reflectors of different sizes for different frequency bands. Total satellite mass is 3000 to 6000 kg at launch."
+  },
+  {
+    "id": "comm_006",
+    "topic": "Low Earth Orbit communication constellations",
+    "text": "LEO communication constellations like Starlink, OneWeb, and Telesat Lightspeed use flat-panel origami solar arrays folded against the satellite body during launch. Each satellite is small at 250 to 700 kg but operates in large constellations of hundreds to thousands. Fold patterns must withstand thousands of thermal cycles over 5 to 7 year operational lifetimes."
+  },
+  {
+    "id": "comm_007",
+    "topic": "Phased array antenna origami",
+    "text": "Modern communication satellites use electronically steered phased array antennas. These flat panel antennas fold using living hinge designs for CubeSat and small satellite applications. The antenna panel must deploy flat to within 0.1 mm for millimeter-wave beamforming. Kapton-backed fold hinges maintain planarity."
+  },
+  {
+    "id": "eo_001",
+    "topic": "Earth observation satellite overview",
+    "text": "Earth observation satellites image the planet surface for agriculture, disaster monitoring, urban planning, climate science, and military reconnaissance. They carry optical cameras, synthetic aperture radars, multispectral imagers, and hyperspectral sensors. Orbit altitudes range from 400 to 800 km for high resolution."
+  },
+  {
+    "id": "eo_002",
+    "topic": "SAR antenna deployment origami",
+    "text": "Synthetic aperture radar satellites require large flat antenna panels up to 10 meters long and 1.5 meters wide. These panels fold into compact stacks using accordion or Miura-ori patterns. Sentinel-1 deploys a 12.3 by 1.4 meter SAR antenna from a folded package. The antenna must maintain flatness to within lambda over 16 for accurate radar imaging where lambda is the radar wavelength."
+  },
+  {
+    "id": "eo_003",
+    "topic": "Optical telescope deployable sunshield",
+    "text": "Earth observation satellites with large optical telescopes use origami sunshields to block stray light. The sunshield folds into the launch fairing and deploys to shadow the telescope aperture. Multi-layer Kapton sunshields use different fold patterns per layer to accommodate differential thermal expansion."
+  },
+  {
+    "id": "eo_004",
+    "topic": "Earth observation solar array design",
+    "text": "Earth observation satellites in sun-synchronous orbit use body-mounted or deployable solar arrays. Small observation satellites like PlanetScope CubeSats use spring-loaded fold-out panels. Larger platforms like WorldView and Pleiades use articulated wings with Miura-ori fold patterns for compact stowage during launch."
+  },
+  {
+    "id": "eo_005",
+    "topic": "Hyperspectral imager deployable optics",
+    "text": "Hyperspectral Earth observation satellites require large aperture telescopes for fine spectral resolution. Deployable primary mirrors using origami-inspired petal fold patterns allow larger apertures than fixed fairing-constrained designs. Each petal deploys and latches to form a continuous parabolic mirror surface."
+  },
+  {
+    "id": "eo_006",
+    "topic": "Earth observation constellation small satellites",
+    "text": "Commercial Earth observation constellations use 3U to 16U CubeSats with deployable solar panels and antennas. Planet Labs Dove satellites use a 3U form factor with body-mounted solar cells. Larger 16U formats deploy origami-folded solar panels to power higher resolution cameras and faster downlink radios."
+  },
+  {
+    "id": "nav_001",
+    "topic": "Navigation satellite overview",
+    "text": "Navigation satellites provide GPS, GLONASS, Galileo, and BeiDou positioning signals. They operate in medium Earth orbit at 20000 km altitude in constellations of 24 to 30 satellites. Each satellite carries atomic clocks and broadcasts precise timing signals. They require robust power systems and long operational lifetimes of 10 to 15 years."
+  },
+  {
+    "id": "nav_002",
+    "topic": "GPS satellite solar array origami",
+    "text": "GPS Block III satellites use large deployable solar arrays generating 4480 watts. The arrays fold using accordion patterns derived from Miura-ori for compact stowage in the Atlas V launch fairing. Solar array deployment is a single-shot mechanism that must work reliably after years of storage in the launch vehicle."
+  },
+  {
+    "id": "nav_003",
+    "topic": "Navigation satellite antenna panel",
+    "text": "Navigation satellites use L-band antenna panels for signal transmission. The main transmit antenna is a flat phased array that deploys from folded stowage. Precise antenna geometry is critical for navigation accuracy. Thermal distortion from sunlight must be controlled through fold hinge design and composite material selection."
+  },
+  {
+    "id": "nav_004",
+    "topic": "Navigation satellite long life design",
+    "text": "Navigation satellites must operate reliably for 10 to 15 years in medium Earth orbit where radiation doses are high. Deployable structures use shape memory alloy hinges as backup to motors. Fold lines in solar arrays use radiation-resistant polyimide films that retain flexibility after 100 megarad total ionizing dose."
+  },
+  {
+    "id": "wx_001",
+    "topic": "Weather satellite overview",
+    "text": "Weather satellites monitor Earth's atmosphere, ocean temperatures, cloud cover, precipitation, and severe storms. Geostationary weather satellites like GOES and Meteosat provide continuous regional coverage. Polar-orbiting weather satellites like NOAA and MetOp provide global coverage twice daily."
+  },
+  {
+    "id": "wx_002",
+    "topic": "Weather satellite solar array",
+    "text": "Geostationary weather satellites use large deployable solar arrays for continuous power generation. GOES-R series satellites generate 4 kilowatts using deployable wings with Miura-ori fold patterns. The arrays must deploy reliably in geostationary transfer orbit and survive 15 years of thermal cycling and solar radiation."
+  },
+  {
+    "id": "wx_003",
+    "topic": "Weather satellite imaging radiometer deployment",
+    "text": "Advanced weather satellites carry scanning radiometers with large telescope apertures. Deployable sunshades and baffles use origami fold patterns to reduce stray light. The GOES-R Advanced Baseline Imager uses a sun-pointing platform with deployable thermal radiators folded during launch and deployed on orbit."
+  },
+  {
+    "id": "wx_004",
+    "topic": "CubeSat weather monitoring",
+    "text": "Small CubeSat weather satellites use deployable UHF and VHF antennas to receive weather station data. Tape spring booms and TRAC booms deploy wire antennas from compact stowed configurations. Origami-folded whip antennas are used on 1U and 3U CubeSats for atmospheric sounding and storm tracking applications."
+  },
+  {
+    "id": "sci_001",
+    "topic": "Scientific satellite overview",
+    "text": "Scientific satellites conduct astronomy, heliophysics, planetary science, and fundamental physics research. Examples include Hubble Space Telescope, Chandra X-ray Observatory, Fermi Gamma-ray Space Telescope, and Parker Solar Probe. They require precise pointing, low vibration, and minimal electromagnetic interference."
+  },
+  {
+    "id": "sci_002",
+    "topic": "Space telescope deployable primary mirror",
+    "text": "Large space telescopes use segmented deployable primary mirrors based on origami petal fold patterns. The James Webb Space Telescope uses 18 hexagonal beryllium mirror segments that fold into the Ariane 5 fairing. Each segment deploys and phases to form a 6.5 meter primary mirror with 25 square meters collecting area."
+  },
+  {
+    "id": "sci_003",
+    "topic": "James Webb Space Telescope sunshield origami",
+    "text": "The JWST sunshield is a five-layer origami structure made of Kapton polyimide film measuring 21 by 14 meters when deployed. It folds into a 3.9 meter diameter cylinder for launch. Each layer uses a custom fold line layout to avoid crease intersections that could cause tears. The sunshield reduces solar radiation from 200 kilowatts to 0.023 milliwatts reaching the telescope."
+  },
+  {
+    "id": "sci_004",
+    "topic": "X-ray telescope deployable optics",
+    "text": "X-ray telescopes require grazing incidence mirrors with large collecting area. Deployable X-ray optics use origami-inspired nested shell designs that fold for launch and deploy on orbit. NASA concepts for future large X-ray observatories use origami petal patterns to achieve 10 meter focal length in compact stowage."
+  },
+  {
+    "id": "sci_005",
+    "topic": "Heliophysics satellite solar wind instruments",
+    "text": "Heliophysics satellites like Parker Solar Probe and STEREO carry deployable booms for plasma wave instruments. Tape spring booms and Yoshimura-pattern tubes deploy magnetometers and electric field probes to distances of 5 to 10 meters from the spacecraft body to reduce electromagnetic interference from onboard electronics."
+  },
+  {
+    "id": "sci_006",
+    "topic": "Gravitational wave space detector",
+    "text": "LISA gravitational wave detector requires three spacecraft separated by 2.5 million kilometers with laser interferometer links. Each spacecraft carries deployable thermal shields and solar arrays using Miura-ori fold patterns. The telescope assembly uses origami-derived petal deployment to achieve 30 centimeter aperture."
+  },
+  {
+    "id": "sci_007",
+    "topic": "Astrobiology cubesat deployable instruments",
+    "text": "Small astrobiology CubeSats use deployable spectrometer baffles and solar panels folded using living hinge patterns. 6U CubeSats for atmospheric science carry deployable drag sails for deorbit using Miura-ori folded Kapton film. Research missions deploy from ISS using NanoRacks deployers with origami-folded structures."
+  },
+  {
+    "id": "mil_001",
+    "topic": "Military satellite overview",
+    "text": "Military satellites provide reconnaissance imaging, signals intelligence, missile warning, secure communications, and navigation for armed forces. They require high reliability, long life, and often operate in classified orbits. Large reconnaissance satellites use the same deployable origami structures as civil Earth observation satellites but with classified performance specifications."
+  },
+  {
+    "id": "mil_002",
+    "topic": "Reconnaissance satellite large aperture optics",
+    "text": "Military reconnaissance satellites use very large optical telescopes with apertures of 2 to 3 meters. Deployable secondary mirrors and baffles use origami fold patterns to fit within launch fairings. Large primary mirrors use segmented petal fold designs similar to JWST but optimized for near-Earth imaging rather than deep-space astronomy."
+  },
+  {
+    "id": "mil_003",
+    "topic": "Military communication satellite",
+    "text": "Military communication satellites use extremely high frequency and super high frequency bands for jam-resistant communications. Large deployable antenna reflectors use AstroMesh-type origami geodesic structures. Advanced Extremely High Frequency satellites use 3.4 meter deployable antenna reflectors folded into compact drums."
+  },
+  {
+    "id": "mil_004",
+    "topic": "Missile warning satellite infrared array",
+    "text": "Space-based infrared system satellites detect missile launches using large infrared focal plane arrays. Cryogenic radiator panels deploy using origami fold patterns to cool detectors to below 70 Kelvin. Deployable sunshades reduce solar heating of the cryogenic payload."
+  },
+  {
+    "id": "cube_001",
+    "topic": "CubeSat standard and origami",
+    "text": "CubeSats follow a standard 10 by 10 by 10 centimeter unit called 1U. Common sizes are 1U, 3U, 6U, and 12U. Origami engineering is critical because deployable structures must fit within strict volume budgets. Solar panels, antennas, and science instruments all use origami fold patterns to maximize deployed area from minimal stowed volume."
+  },
+  {
+    "id": "cube_002",
+    "topic": "CubeSat solar panel deployment",
+    "text": "CubeSat deployable solar panels use spring-loaded living hinges to fold flat panels against the spacecraft body. A 3U CubeSat can deploy four panels to generate 10 to 15 watts. Fold patterns use Z-fold and W-fold arrangements. Panels are held closed by burn wire or shape memory alloy pins released by electrical current."
+  },
+  {
+    "id": "cube_003",
+    "topic": "CubeSat deployable antenna",
+    "text": "CubeSat UHF and VHF antennas use tape spring deployable elements stored as coiled metal strips inside the spacecraft. On deployment the strips spring open to form rigid rod antennas 10 to 50 centimeters long. More complex origami-folded patch antennas deploy flat panels for higher gain microwave communications."
+  },
+  {
+    "id": "cube_004",
+    "topic": "CubeSat drag sail deorbit",
+    "text": "CubeSat drag sails use Miura-ori folded Kapton film to deploy large surface areas for atmospheric drag deorbit. A 3U CubeSat drag sail deploys 5 to 10 square meter sails from a 0.5U volume using four triangular panels on deployable booms. The sail reduces orbital lifetime from decades to under 25 years."
+  },
+  {
+    "id": "cube_005",
+    "topic": "NanoSat deployable boom",
+    "text": "Nanosatellites use TRAC (Triangular Rollable And Collapsible) booms made from two interlocking tape springs. TRAC booms deploy from compact rolled storage to rigid beam configurations up to 5 meters long. Used for magnetometer deployment, gravity gradient stabilization, and antenna mounting on CubeSats."
+  },
+  {
+    "id": "cube_006",
+    "topic": "PocketQube and femtosatellite origami",
+    "text": "PocketQube satellites follow a 5 by 5 by 5 centimeter standard. At this scale origami structures must be extremely compact. Electroactive polymer hinges and shape memory polymer fold lines are used instead of mechanical springs. Deployable dipole antennas fold to fit within 5 millimeter gaps."
+  },
+  {
+    "id": "cube_007",
+    "topic": "CubeSat constellation origami manufacturing",
+    "text": "Mass production of CubeSat origami structures requires automated folding and precise hinge placement. Laser-scored fold lines in CFRP-Kapton laminates enable repeatable fold angles. Quality control uses machine vision to verify fold geometry before integration. Production rates of 100 or more CubeSats per year require manufacturing automation of all origami fold operations."
+  },
+  {
+    "id": "tel_001",
+    "topic": "Space telescope overview",
+    "text": "Space telescopes observe the universe without atmospheric distortion and absorption. They cover wavelengths from gamma rays through radio waves. Large apertures improve angular resolution and sensitivity. Origami engineering enables apertures larger than launch vehicle fairings through deployable segmented mirror designs."
+  },
+  {
+    "id": "tel_002",
+    "topic": "Hubble Space Telescope fixed optics",
+    "text": "Hubble Space Telescope has a fixed 2.4 meter primary mirror that required no deployment. Its solar arrays however used Bi-STEM (Bi-Stem Tape Spring Erectable Mechanism) deployable panels. The original solar arrays had resonance vibration problems fixed by replacing with stiffer origami-fold panel designs in 1993."
+  },
+  {
+    "id": "tel_003",
+    "topic": "Roman Space Telescope deployable sunshield",
+    "text": "Nancy Grace Roman Space Telescope uses a deployable sunshield and solar array assembly inspired by JWST. The sunshield uses a modified Miura-ori pattern scaled for Roman's smaller thermal control requirements. Solar arrays deploy on articulated wings with accordion fold patterns for compact launch configuration."
+  },
+  {
+    "id": "tel_004",
+    "topic": "Large UV Optical Infrared telescope origami",
+    "text": "Concept studies for a 6 to 8 meter Large UV Optical Infrared telescope use segmented primary mirrors with origami petal fold deployment. Each of 36 to 54 hexagonal segments folds against the secondary mirror tower for launch. Deployment sequences derived from Miura-ori mathematics ensure collision-free unfurling."
+  },
+  {
+    "id": "tel_005",
+    "topic": "Infrared space telescope cooling origami",
+    "text": "Infrared space telescopes require cooling to below 40 Kelvin for detector sensitivity. Origami-folded radiator panels deploy to increase thermal emission area. Multi-layer insulation blankets use modified waterbomb patterns that drape over complex spacecraft geometries without bridging or crinkling that would reduce thermal performance."
+  },
+  {
+    "id": "tel_006",
+    "topic": "Radio telescope space interferometry",
+    "text": "Space-ground radio interferometry missions like RadioAstron use deployable parabolic antenna reflectors up to 10 meters diameter. The antenna surface uses a mesh wrapped in Flasher fold pattern around a deployable rib structure. Ribs deploy radially from a central hub and tension the mesh to shape accuracy within 0.3 millimeters."
+  },
+  {
+    "id": "sail_001",
+    "topic": "Solar sail overview",
+    "text": "Solar sails use radiation pressure from sunlight for propulsion without propellant. They require very large thin reflective surfaces of hundreds to thousands of square meters. Origami fold patterns are essential to pack these enormous surfaces into small launch volumes. Solar sails are ideal for deep space missions and near-Sun orbits where solar radiation is intense."
+  },
+  {
+    "id": "sail_002",
+    "topic": "IKAROS solar sail origami",
+    "text": "JAXA IKAROS spacecraft deployed a 196 square meter polyimide solar sail in 2010. The sail used a modified Flasher fold pattern to pack the 14 by 14 meter square into a cylindrical stowage volume. Thin film solar cells were integrated into the sail material. IKAROS demonstrated solar sailing in interplanetary space for the first time using purely origami deployment mechanics."
+  },
+  {
+    "id": "sail_003",
+    "topic": "NanoSail-D and LightSail origami",
+    "text": "NASA NanoSail-D and Planetary Society LightSail missions used Miura-ori folded Mylar sails deployed from CubeSat form factors. LightSail 2 deployed a 32 square meter sail from a 3U CubeSat using four triangular sail quadrants on deployable TRAC booms. The sail material was 4.5 micron thick aluminized Mylar folded 40 times."
+  },
+  {
+    "id": "sail_004",
+    "topic": "Advanced Composite Solar Sail System",
+    "text": "NASA Advanced Composite Solar Sail System (ACS3) demonstrated composite boom deployment for a 74 square meter solar sail in 2024. The booms used TRAC design with carbon fiber reinforced polymer construction. The sail used a modified Miura-ori fold pattern optimized for composite boom geometry and deployment sequence."
+  },
+  {
+    "id": "sail_005",
+    "topic": "Solar sail material and fold design",
+    "text": "Solar sail films are 1 to 7 microns thick aluminized polyimide or polyester. At this extreme thinness fold lines must be designed to avoid cracking. Origami crease patterns for sails use rounded fold radii and avoid triple-point intersections where material damage concentrates. Fold patterns are validated by thousands of deployment cycles in thermal vacuum chambers."
+  },
+  {
+    "id": "sail_006",
+    "topic": "Diffractive solar sail",
+    "text": "NASA concept diffractive solar sails use thin film gratings instead of reflective aluminum coating. The grating structure diffracts sunlight to generate thrust without specular reflection. Fold patterns for diffractive sails must preserve grating orientation within 0.1 degree to maintain diffraction efficiency after deployment."
+  },
+  {
+    "id": "deep_001",
+    "topic": "Deep space probe overview",
+    "text": "Deep space probes explore planets, moons, asteroids, comets, and interstellar space. Solar power diminishes with distance so probes beyond Mars use radioisotope thermoelectric generators. Deployable structures include magnetometer booms, plasma wave antennas, and large high-gain antenna reflectors for communication."
+  },
+  {
+    "id": "deep_002",
+    "topic": "Deep space high gain antenna origami",
+    "text": "Deep space probes require large high-gain antennas to communicate across billions of kilometers. The Cassini mission used a 4 meter fixed dish. Future missions propose deployable 6 to 10 meter reflectors using origami rib-mesh designs similar to AstroMesh. Larger antennas reduce transmitter power requirements and increase data return rates from distant planets."
+  },
+  {
+    "id": "deep_003",
+    "topic": "Interplanetary CubeSat deployables",
+    "text": "MarCO A and B were the first interplanetary CubeSats flying with InSight Mars lander. Each 6U CubeSat deployed a UHF antenna and solar arrays using spring-loaded fold-out panels. The solar arrays used a Z-fold pattern to deploy from the 6U stowed volume to provide 17 watts at Mars distance. Deployable patch antennas provided X-band communications relay during InSight landing."
+  },
+  {
+    "id": "deep_004",
+    "topic": "Asteroid mission deployable instruments",
+    "text": "Asteroid sample return missions like OSIRIS-REx and Hayabusa2 use deployable solar arrays and instrument booms. OSIRIS-REx solar arrays use three-panel accordion fold wings generating 3000 watts at Earth distance. Instrument booms deploy spectrometers and cameras away from the spacecraft bus on Yoshimura-pattern composite tubes."
+  },
+  {
+    "id": "deep_005",
+    "topic": "Europa Clipper deployable radar",
+    "text": "Europa Clipper carries a deployable ice-penetrating radar with two 8.5 meter antennas. Each antenna deploys from a coiled tape spring configuration to a rigid 17 meter total baseline. The radar antennas use TRAC boom design with thermal protection for the Jupiter radiation environment. Solar arrays deploy to 18.4 meters total span using accordion fold patterns generating 700 watts at Jupiter."
+  },
+  {
+    "id": "iss_001",
+    "topic": "Space station solar array overview",
+    "text": "The International Space Station has eight solar array wings each measuring 34 by 12 meters deployed. Each wing stores in a blanket box using an accordion fold pattern with 82 panels. The ISS arrays generate 84 to 120 kilowatts total. Fold patterns must allow deployment and retraction multiple times for maintenance."
+  },
+  {
+    "id": "iss_002",
+    "topic": "ISS Roll Out Solar Array origami",
+    "text": "NASA developed Roll Out Solar Arrays using a modified Miura-ori pattern on flexible blanket substrate. ROSA arrays roll into a cylinder for compact stowage and unroll on orbit. ROSA was demonstrated on ISS in 2017 and deployed on the solar power upgrade in 2021. Each ROSA unit generates 20 kilowatts from a stowed roll 4 meters long and 0.4 meters diameter."
+  },
+  {
+    "id": "iss_003",
+    "topic": "Lunar Gateway station deployables",
+    "text": "Lunar Gateway will use Advanced Solar Array System with origami-folded panels generating 60 kilowatts total. The arrays use a modified accordion fold for compact launch on SLS and commercial rockets. Gateway operates in a near-rectilinear halo orbit with variable solar flux requiring robust deployable array design."
+  },
+  {
+    "id": "iss_004",
+    "topic": "Chinese Space Station Tiangong solar arrays",
+    "text": "Tiangong space station uses six deployable solar array wings with accordion fold patterns. Each wing generates approximately 9 kilowatts. The fold pattern uses rigid CFRP panels connected by elastomer hinges enabling smooth deployment and controlled retraction for berthing operations with visiting spacecraft."
+  },
+  {
+    "id": "tech_001",
+    "topic": "Technology demonstration satellite overview",
+    "text": "Technology demonstration satellites test new origami deployable mechanisms before operational use. NASA In-Space Robotic Manufacturing and Assembly, ESA Deployable Structures Testbed, and JAXA Small Demonstration Satellite series have demonstrated novel fold patterns, new hinge materials, and deployment mechanisms in orbit."
+  },
+  {
+    "id": "tech_002",
+    "topic": "Deployable structures test satellite",
+    "text": "Engineering test satellites validate origami deployment mechanisms in the actual space environment. Key tests include thermal vacuum deployment, vibration response, flatness measurement, and long-term creep of fold hinges. Results from test satellites calibrate ground simulation models and validate design margins."
+  },
+  {
+    "id": "tech_003",
+    "topic": "Shape memory polymer hinge demonstration",
+    "text": "Shape memory polymer hinges have been demonstrated on technology satellites for self-deploying solar panels and antenna booms. The SMP is programmed flat and folded cold for launch. Solar heating triggers deployment without motors. Demonstration missions have shown reliable deployment after 12 months of cold storage."
+  },
+  {
+    "id": "tech_004",
+    "topic": "Electroactive polymer deployable",
+    "text": "Electroactive polymer actuators enable active control of origami fold angles for precise deployable structure positioning. Technology demonstration satellites have tested EAP-hinged panels that adjust solar array angle for maximum power. EAP actuators add 15 percent mass compared to passive hinges but enable continuous shape adjustment throughout the mission."
+  },
+  {
+    "id": "mat_001",
+    "topic": "Kapton polyimide film",
+    "text": "Kapton polyimide is the primary material for origami-folded structures in space. It is stable from minus 269 to plus 400 Celsius, radiation resistant, and can be folded thousands of times without cracking. Used in solar sail films, sunshields, multi-layer insulation blankets, and flexible substrate solar panels."
+  },
+  {
+    "id": "mat_002",
+    "topic": "Carbon fiber reinforced polymer panels",
+    "text": "CFRP panels with elastomer fold line hinges create rigid origami deployable structures. Carbon fiber provides stiffness and near-zero thermal expansion. Elastomer hinges allow fold angles up to 180 degrees. CFRP-elastomer laminates are used in CubeSat solar panels, SAR antenna wings, and large deployable reflector panels."
+  },
+  {
+    "id": "mat_003",
+    "topic": "Shape memory alloy hinge",
+    "text": "Nickel-titanium shape memory alloy hinges deploy origami structures using the shape memory effect. The alloy is deformed cold for stowage and recovers its original shape when heated above transition temperature. SMA hinges are extremely reliable with no moving parts and have been used as backup deployment mechanisms on GPS and communication satellite solar arrays."
+  },
+  {
+    "id": "mat_004",
+    "topic": "Shape memory polymer fold lines",
+    "text": "Shape memory polymers are used as crease hinges in origami satellite structures. The SMP is programmed with a fold pattern, heated above glass transition temperature, deformed, and cooled to lock the folded shape. In orbit, solar heating above the glass transition temperature triggers recovery to the deployed flat shape. SMP hinges add minimal mass and complexity compared to motor-driven mechanisms."
+  },
+  {
+    "id": "mat_005",
+    "topic": "Composite tape spring boom",
+    "text": "Composite tape springs are curved thin-shell strips that store elastic energy when flattened and coiled. On release they snap open to rigid straight configurations. Made from carbon fiber or glass fiber composites, tape springs are used as deployable booms for antennas, magnetometers, and solar array outriggers on CubeSats and small satellites."
+  },
+  {
+    "id": "mat_006",
+    "topic": "Thin film solar cell integration",
+    "text": "Thin film solar cells on flexible polyimide substrates can be integrated directly into origami fold patterns. The cell efficiency is 20 to 28 percent for triple junction cells. Interconnects between cells must cross fold lines without cracking. Serpentine interconnect patterns accommodate fold strain while maintaining electrical continuity through thousands of deployment cycles."
+  },
+  {
+    "id": "mat_007",
+    "topic": "Multi-layer insulation origami",
+    "text": "Multi-layer insulation blankets use alternating layers of Mylar and Dacron net spacers. The blanket must conform to complex spacecraft geometries without bridging or wrinkling. Modified waterbomb fold patterns allow MLI blankets to drape over corners and edges. Blanket conductance increases at fold lines requiring thermal analysis of crease geometry."
+  },
+  {
+    "id": "dep_001",
+    "topic": "Tape spring deployment mechanism",
+    "text": "Tape spring deployers store elastic energy in flattened and coiled metallic or composite strips. On release the strip snaps open deploying booms, antennas, or solar array outriggers. Tape springs are passive, require no power, and have been used on hundreds of satellites. Bi-STEM design uses two interlocking tape springs for higher stiffness deployable booms."
+  },
+  {
+    "id": "dep_002",
+    "topic": "Motor driven solar array deployment",
+    "text": "Large satellite solar arrays use motor-driven deployment with Miura-ori fold patterns. A single motor drives the entire unfolding sequence through a mechanism that converts rotary motion to coordinated panel rotation. Redundant motors provide backup deployment capability. Deployment takes 5 to 30 minutes for large arrays."
+  },
+  {
+    "id": "dep_003",
+    "topic": "Burn wire hold-down release",
+    "text": "CubeSat deployable structures are held closed by burn wire mechanisms. A thin resistive wire is routed through the stowed structure and connected to a power supply. Firing current melts the wire releasing spring-loaded deployables. Burn wire mechanisms are simple, reliable, and used on thousands of CubeSat missions."
+  },
+  {
+    "id": "dep_004",
+    "topic": "Shape memory alloy pin puller",
+    "text": "Shape memory alloy pin pullers release hold-down mechanisms for deployable structures. A prestrained SMA rod contracts when heated above transition temperature, pulling a pin from a latch. SMA pin pullers are used for solar array deployment, antenna release, and instrument cover opening on small to medium satellites."
+  },
+  {
+    "id": "dep_005",
+    "topic": "Inflatable deployment mechanism",
+    "text": "Inflatable deployment systems use pressurized gas to unfold origami structures. A small gas generator or stored gas canister inflates sealed tubes along fold lines. Once deployed the structure can be rigidized by UV curing of resin in the tube walls. Inflatable origami deployment has been used for large solar arrays and antenna reflectors where motor mechanisms would be too heavy."
+  },
+  {
+    "id": "dep_006",
+    "topic": "Centrifugal deployment solar sail",
+    "text": "Solar sails can deploy using centrifugal force from spinning the spacecraft. The spin causes the folded sail to unfurl outward as fold lines release sequentially. IKAROS used this technique spinning at 2 rpm to deploy its 14 meter Flasher-folded sail. The fold pattern must be designed to release from center outward to avoid sail tangling during centrifugal deployment."
+  },
+  {
+    "id": "eth_001",
+    "topic": "ETH Zurich CVAE dataset overview",
+    "text": "ETH Zurich researchers developed a Conditional Variational Autoencoder dataset for origami fold pattern generation. The dataset contains 20000 parameterized crease patterns mapped to mechanical properties including stiffness, deployment force, and packing ratio. Patterns cover four satellite structure types: solar panel, antenna, reflector, and truss deployable configurations."
+  },
+  {
+    "id": "eth_002",
+    "topic": "CVAE model architecture for origami",
+    "text": "The ETH Zurich CVAE uses a graph neural network encoder to represent crease patterns as graphs where nodes are vertices at 25 positions and edges are 45 fold lines. The decoder generates new crease patterns conditioned on target properties. The conditioning vector includes panel dimensions, material stiffness, fold cycle count, and target packing ratio."
+  },
+  {
+    "id": "eth_003",
+    "topic": "CVAE training procedure",
+    "text": "The CVAE model trains by encoding real crease patterns to a latent distribution and reconstructing them. The loss combines reconstruction accuracy and KL divergence from a standard normal prior. Training used 50000 generated and simulated patterns augmented with physical constraint violation penalties."
+  },
+  {
+    "id": "eth_004",
+    "topic": "ETH Zurich simulation pipeline",
+    "text": "The simulation pipeline combines bar-and-hinge finite element models for mechanical simulation with geometric constraint checking. Generated patterns are automatically meshed, simulated for deployment dynamics, checked for self-intersection, and scored for packing ratio and stiffness. The pipeline validates each CVAE output before returning it as a viable crease pattern design."
+  },
+  {
+    "id": "eth_005",
+    "topic": "Dataset graph representation",
+    "text": "Each crease pattern in the ETH Zurich dataset is stored as a graph with 25 vertex nodes containing x and y coordinates and 45 edge connections indicating fold line topology. Labels classify patterns as solar panel (class 0), antenna (class 1), reflector (class 2), or truss (class 3). The dataset has 5000 samples per class for a balanced total of 20000 patterns."
+  },
+  {
+    "id": "eth_006",
+    "topic": "CVAE latent space interpolation",
+    "text": "The CVAE latent space allows smooth interpolation between different crease pattern types. Interpolating from a solar panel pattern to an antenna pattern produces intermediate designs with mixed properties. This enables gradient-based optimization of fold patterns for target mechanical specifications by walking through latent space."
+  },
+  {
+    "id": "eth_007",
+    "topic": "Physical constraint encoding in CVAE",
+    "text": "The ETH Zurich CVAE encodes physical constraints as penalty terms in training loss. Constraints include Kawasaki flat-foldability condition, rigid foldability at each vertex, minimum fold line length, and self-intersection avoidance. Patterns violating these constraints receive high loss and are gradually eliminated from generated outputs."
+  },
+  {
+    "id": "rag_001",
+    "topic": "RAG for origami satellite engineering",
+    "text": "Retrieval Augmented Generation combines a vector database of origami satellite engineering knowledge with a large language model for question answering. The system retrieves relevant technical documents about fold patterns, materials, and satellite types then generates precise engineering answers grounded in the retrieved context. This prevents hallucination of incorrect fold mechanics or material properties."
+  },
+  {
+    "id": "rag_002",
+    "topic": "Vector embeddings for fold pattern retrieval",
+    "text": "Text embedding models convert origami satellite engineering documents into dense vectors that capture semantic meaning. Query vectors for questions like how does Miura-ori deploy solar panels match documents about fold mechanics and satellite power systems through cosine similarity. Domain-specific embeddings trained on satellite origami corpora outperform general-purpose embedding models."
+  },
+  {
+    "id": "rag_003",
+    "topic": "GNN embeddings for crease pattern retrieval",
+    "text": "Graph neural network embeddings represent crease patterns as vectors for similarity search. Two crease patterns with similar topology and mechanical properties map to nearby vectors in embedding space. Combined with text embeddings, GNN embeddings enable multimodal RAG retrieval responding to both text questions and crease pattern image queries about satellite deployable structure design."
+  },
+  {
+    "id": "rag_004",
+    "topic": "Contrastive learning for origami embeddings",
+    "text": "Contrastive learning trains embedding models by pushing similar origami pattern pairs together and different pairs apart in embedding space. Positive pairs are crease patterns of the same satellite structure type. Negative pairs are patterns from different types. This trains the model to encode structural similarity rather than superficial geometric similarity in the embedding vectors."
+  },
+  {
+    "id": "rag_005",
+    "topic": "Knowledge base construction for satellite origami",
+    "text": "A comprehensive knowledge base for satellite origami RAG should cover all satellite types from CubeSats to space stations, all fold pattern families from Miura-ori to Flasher, all materials from Kapton to shape memory polymers, all deployment mechanisms, and recent mission examples. The ETH Zurich CVAE dataset provides structured mechanical property data complementing unstructured text documents."
+  }
+]

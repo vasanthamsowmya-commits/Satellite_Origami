@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Satellite Origami Designer</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Exo+2:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<style>
+:root {
+  --bg-deep:    #010812;
+  --bg-mid:     #050f20;
+  --bg-panel:   rgba(0,180,255,0.04);
+  --border:     rgba(0,180,255,0.15);
+  --border-hot: rgba(0,220,255,0.5);
+  --blue-glow:  #00b4ff;
+  --blue-hot:   #00dcff;
+  --blue-dim:   #0066aa;
+  --accent:     #00ffcc;
+  --text:       #c8eeff;
+  --text-dim:   rgba(200,238,255,0.5);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{height:100%;font-family:'Exo 2',sans-serif;background:var(--bg-deep);color:var(--text);overflow:hidden;}
+#stars{position:fixed;inset:0;pointer-events:none;z-index:0;}
+body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,180,255,0.015) 2px,rgba(0,180,255,0.015) 4px);pointer-events:none;z-index:1;}
+.page{position:fixed;inset:0;z-index:2;display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity 0.55s ease;}
+.page.active{opacity:1;pointer-events:all;}
+#page-intro{align-items:center;justify-content:center;background:radial-gradient(ellipse at 50% 40%,rgba(0,60,140,0.28) 0%,transparent 70%);}
+.intro-inner{text-align:center;max-width:620px;padding:0 24px;}
+.intro-sat{font-size:90px;line-height:1;filter:drop-shadow(0 0 40px rgba(0,180,255,0.7));animation:floatSat 4s ease-in-out infinite;}
+@keyframes floatSat{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-16px) rotate(3deg)}}
+.intro-title{font-family:'Orbitron',monospace;font-size:clamp(20px,3.5vw,42px);font-weight:900;letter-spacing:5px;color:var(--blue-hot);text-shadow:0 0 40px rgba(0,220,255,0.5);margin:18px 0 6px;}
+.intro-sub{font-family:'Orbitron',monospace;font-size:10px;letter-spacing:4px;color:var(--text-dim);margin-bottom:28px;}
+.intro-tagline{font-size:14px;color:var(--text-dim);margin:0 auto 36px;line-height:1.75;}
+.intro-enter{font-family:'Orbitron',monospace;font-size:11px;font-weight:700;letter-spacing:4px;padding:14px 42px;border:1px solid var(--blue-glow);border-radius:50px;background:linear-gradient(135deg,rgba(0,100,200,0.3),rgba(0,180,255,0.15));color:var(--blue-hot);cursor:pointer;position:relative;overflow:hidden;transition:all 0.3s;box-shadow:0 0 30px rgba(0,180,255,0.2);}
+.intro-enter:hover{box-shadow:0 0 60px rgba(0,180,255,0.5);transform:scale(1.04);}
+.intro-badges{display:flex;gap:10px;justify-content:center;margin-top:32px;flex-wrap:wrap;}
+.badge{font-family:'Orbitron',monospace;font-size:8px;letter-spacing:2px;padding:5px 12px;border:1px solid var(--border);border-radius:20px;color:var(--text-dim);background:rgba(0,180,255,0.05);}
+#page-login{align-items:center;justify-content:center;}
+.login-card{width:400px;max-width:92vw;background:rgba(2,10,28,0.96);border:1px solid var(--border);border-radius:22px;padding:36px 32px;box-shadow:0 0 80px rgba(0,100,200,0.12),0 40px 80px rgba(0,0,0,0.6);backdrop-filter:blur(20px);position:relative;overflow:hidden;}
+.login-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--blue-glow),transparent);}
+.login-logo{display:flex;align-items:center;gap:12px;margin-bottom:26px;}
+.login-icon{width:44px;height:44px;border-radius:11px;font-size:22px;display:flex;align-items:center;justify-content:center;background:rgba(0,180,255,0.1);border:1px solid rgba(0,180,255,0.3);animation:iconPulse 3s ease-in-out infinite;}
+@keyframes iconPulse{0%,100%{box-shadow:0 0 20px rgba(0,180,255,0.25)}50%{box-shadow:0 0 40px rgba(0,220,255,0.6)}}
+.login-logo-title{font-family:'Orbitron',monospace;font-size:13px;font-weight:700;color:var(--blue-hot);letter-spacing:2px;}
+.login-logo-sub{font-family:'Orbitron',monospace;font-size:8px;color:var(--text-dim);letter-spacing:1px;margin-top:3px;}
+.login-heading{font-family:'Orbitron',monospace;font-size:9px;letter-spacing:3px;color:var(--text-dim);margin-bottom:20px;}
+.field{margin-bottom:15px;}
+.field label{display:block;font-family:'Orbitron',monospace;font-size:8px;letter-spacing:2px;color:var(--text-dim);margin-bottom:7px;}
+.field input{width:100%;padding:11px 14px;background:rgba(0,18,45,0.85);border:1px solid var(--border);border-radius:9px;color:var(--text);font-family:'Exo 2',sans-serif;font-size:13px;outline:none;transition:all 0.2s;}
+.field input::placeholder{color:rgba(200,238,255,0.22);}
+.field input:focus{border-color:var(--blue-glow);box-shadow:0 0 16px rgba(0,180,255,0.2);}
+.login-error{background:rgba(255,60,60,0.08);border:1px solid rgba(255,80,80,0.3);border-radius:8px;padding:9px 13px;margin-bottom:14px;font-size:11px;color:#ff9999;display:none;}
+.login-btn{width:100%;padding:12px;margin-top:6px;font-family:'Orbitron',monospace;font-size:10px;font-weight:700;letter-spacing:3px;border:1px solid var(--blue-glow);border-radius:11px;cursor:pointer;background:linear-gradient(135deg,rgba(0,100,200,0.4),rgba(0,180,255,0.2));color:var(--blue-hot);transition:all 0.3s;box-shadow:0 0 18px rgba(0,180,255,0.12);}
+.login-btn:hover{box-shadow:0 0 40px rgba(0,180,255,0.4);transform:translateY(-1px);}
+.login-div{text-align:center;margin:16px 0;color:var(--text-dim);font-size:10px;letter-spacing:2px;font-family:'Orbitron',monospace;}
+.guest-btn{width:100%;padding:11px;font-family:'Orbitron',monospace;font-size:9px;letter-spacing:2px;border:1px solid rgba(0,255,200,0.3);border-radius:11px;cursor:pointer;background:rgba(0,255,200,0.05);color:var(--accent);transition:all 0.3s;}
+.guest-btn:hover{background:rgba(0,255,200,0.1);box-shadow:0 0 20px rgba(0,255,200,0.2);}
+.login-back{margin-top:18px;text-align:center;font-size:10px;color:var(--text-dim);font-family:'Orbitron',monospace;}
+.login-back span{color:var(--blue-glow);cursor:pointer;}
+.login-back span:hover{color:var(--blue-hot);}
+#page-app{overflow:hidden;}
+.shell{position:relative;z-index:2;height:100vh;display:flex;flex-direction:column;}
+header{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;background:rgba(0,15,40,0.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);flex-shrink:0;position:relative;}
+header::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--blue-glow),transparent);animation:scanH 4s linear infinite;}
+@keyframes scanH{0%,100%{opacity:0.3;transform:scaleX(0.3)}50%{opacity:1;transform:scaleX(1)}}
+.logo{display:flex;align-items:center;gap:14px;}
+.logo-icon{width:42px;height:42px;border:1px solid var(--blue-glow);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;background:rgba(0,180,255,0.1);box-shadow:0 0 20px rgba(0,180,255,0.3);animation:iconPulse 3s ease-in-out infinite;}
+.logo-text{font-family:'Orbitron',monospace;}
+.logo-title{font-size:16px;font-weight:700;color:var(--blue-hot);letter-spacing:2px;}
+.logo-sub{font-size:10px;color:var(--text-dim);letter-spacing:1px;margin-top:2px;}
+.hdr-right{display:flex;align-items:center;gap:14px;}
+.user-chip{font-family:'Orbitron',monospace;font-size:10px;color:var(--accent);padding:5px 12px;border:1px solid rgba(0,255,200,0.25);border-radius:20px;background:rgba(0,255,200,0.05);}
+.status-bar{display:flex;align-items:center;gap:8px;font-size:11px;font-family:'Orbitron',monospace;color:var(--text-dim);}
+.status-dot{width:8px;height:8px;border-radius:50%;background:#ff4444;box-shadow:0 0 8px #ff4444;transition:all 0.5s;}
+.status-dot.ok{background:var(--accent);box-shadow:0 0 8px var(--accent);animation:blink 2s ease-in-out infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.4}}
+#status-text.ok{color:var(--accent);}
+.exit-btn{font-family:'Orbitron',monospace;font-size:9px;letter-spacing:1px;padding:5px 12px;border:1px solid rgba(255,100,100,0.3);border-radius:8px;background:rgba(255,60,60,0.05);color:#ff9999;cursor:pointer;transition:all 0.2s;}
+.exit-btn:hover{background:rgba(255,60,60,0.15);}
+.main{flex:1;display:grid;grid-template-columns:280px 1fr 320px;overflow:hidden;min-height:0;}
+.panel{background:var(--bg-panel);border-right:1px solid var(--border);padding:18px;overflow-y:auto;min-height:0;}
+.panel::-webkit-scrollbar{width:4px;}
+.panel::-webkit-scrollbar-thumb{background:var(--blue-dim);border-radius:2px;}
+.panel-title{font-family:'Orbitron',monospace;font-size:10px;letter-spacing:3px;color:var(--blue-glow);text-transform:uppercase;margin-bottom:18px;padding-bottom:10px;border-bottom:1px solid var(--border);}
+.part-card{background:rgba(0,20,50,0.6);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:12px;transition:all 0.3s cubic-bezier(0.23,1,0.32,1);position:relative;overflow:hidden;}
+.part-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--card-color,#00b4ff),transparent);opacity:0;transition:opacity 0.3s;}
+.part-card:hover{transform:translateY(-3px);border-color:var(--card-color,var(--blue-glow));box-shadow:0 8px 30px rgba(0,0,0,0.5);}
+.part-card:hover::before{opacity:1;}
+.part-head{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
+.part-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;background:rgba(0,0,0,0.4);border:1px solid var(--border);}
+.part-name{font-weight:600;font-size:13px;}
+.part-desc{font-size:11px;color:var(--text-dim);margin-bottom:10px;line-height:1.4;}
+.counter{display:flex;align-items:center;gap:10px;}
+.counter-btn{width:28px;height:28px;border-radius:7px;border:1px solid var(--border);background:rgba(0,180,255,0.08);color:var(--blue-hot);font-size:16px;font-weight:700;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;}
+.counter-btn:hover{background:var(--blue-glow);color:#000;box-shadow:0 0 15px rgba(0,180,255,0.5);transform:scale(1.1);}
+.counter-val{font-family:'Orbitron',monospace;font-size:18px;font-weight:700;width:32px;text-align:center;color:var(--blue-hot);text-shadow:0 0 10px var(--blue-glow);}
+.gen-btn{width:100%;padding:13px;margin-top:10px;border:1px solid var(--blue-glow);border-radius:12px;background:linear-gradient(135deg,rgba(0,100,200,0.3),rgba(0,180,255,0.2));color:var(--blue-hot);font-family:'Orbitron',monospace;font-size:11px;font-weight:700;letter-spacing:2px;cursor:pointer;position:relative;overflow:hidden;transition:all 0.3s;box-shadow:0 0 20px rgba(0,180,255,0.2);}
+.gen-btn::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.1),transparent);transition:left 0.5s;}
+.gen-btn:hover{box-shadow:0 0 40px rgba(0,180,255,0.5);transform:translateY(-1px);}
+.gen-btn:hover::before{left:100%;}
+.gen-btn.loading{opacity:0.6;pointer-events:none;}
+.viewer{display:flex;flex-direction:column;background:radial-gradient(ellipse at center,rgba(0,40,100,0.2) 0%,transparent 70%);position:relative;overflow:hidden;min-height:0;}
+.view-tabs{display:flex;border-bottom:1px solid var(--border);flex-shrink:0;}
+.view-tab{flex:1;padding:10px;text-align:center;font-family:'Orbitron',monospace;font-size:10px;letter-spacing:2px;color:var(--text-dim);cursor:pointer;border:none;background:transparent;border-bottom:2px solid transparent;transition:all 0.2s;}
+.view-tab.active{color:var(--blue-hot);border-bottom-color:var(--blue-hot);background:rgba(0,180,255,0.05);}
+.view-tab:hover{color:var(--text);}
+.view-content{flex:1;position:relative;overflow:hidden;min-height:0;}
+.corner{position:absolute;width:24px;height:24px;z-index:3;}
+.corner-tl{top:12px;left:12px;border-top:2px solid var(--blue-glow);border-left:2px solid var(--blue-glow);}
+.corner-tr{top:12px;right:12px;border-top:2px solid var(--blue-glow);border-right:2px solid var(--blue-glow);}
+.corner-bl{bottom:12px;left:12px;border-bottom:2px solid var(--blue-glow);border-left:2px solid var(--blue-glow);}
+.corner-br{bottom:12px;right:12px;border-bottom:2px solid var(--blue-glow);border-right:2px solid var(--blue-glow);}
+#png-view{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#010812;overflow:hidden;}
+.placeholder-wrap{text-align:center;animation:floatUp 3s ease-in-out infinite;}
+@keyframes floatUp{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.placeholder-icon{font-size:80px;filter:drop-shadow(0 0 30px rgba(0,180,255,0.5));}
+.placeholder-text{font-family:'Orbitron',monospace;font-size:11px;color:var(--text-dim);letter-spacing:2px;margin-top:12px;}
+.spinner-wrap{display:none;flex-direction:column;align-items:center;gap:16px;}
+.spinner{width:60px;height:60px;border:2px solid rgba(0,180,255,0.1);border-top:2px solid var(--blue-hot);border-right:2px solid var(--accent);border-radius:50%;animation:spin 0.8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spinner-text{font-family:'Orbitron',monospace;font-size:10px;color:var(--text-dim);letter-spacing:2px;animation:pulse 1s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:0.5}50%{opacity:1}}
+#sat-img{display:none;width:100%;height:100%;object-fit:contain;padding:8px;animation:imgReveal 0.6s cubic-bezier(0.23,1,0.32,1);}
+@keyframes imgReveal{from{opacity:0;transform:scale(0.96)}to{opacity:1;transform:scale(1)}}
+#png-hud{display:none;position:absolute;bottom:12px;left:50%;transform:translateX(-50%);font-family:'Orbitron',monospace;font-size:9px;letter-spacing:2px;color:var(--text-dim);background:rgba(0,0,0,0.5);padding:6px 14px;border-radius:20px;border:1px solid var(--border);pointer-events:none;white-space:nowrap;}
+#threejs-view{position:absolute;inset:0;display:none;}
+#three-canvas{width:100% !important;height:100% !important;display:block;}
+.three-hint{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);font-family:'Orbitron',monospace;font-size:9px;letter-spacing:2px;color:var(--text-dim);background:rgba(0,0,0,0.5);padding:6px 14px;border-radius:20px;border:1px solid var(--border);pointer-events:none;white-space:nowrap;}
+.three-spinner{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;background:rgba(1,8,18,0.8);}
+.chat-panel{display:flex;flex-direction:column;background:rgba(0,10,25,0.7);border-left:1px solid var(--border);min-height:0;overflow:hidden;}
+.chat-header{flex-shrink:0;padding:16px 16px 10px;border-bottom:1px solid var(--border);font-family:'Orbitron',monospace;font-size:10px;letter-spacing:3px;color:var(--blue-glow);text-transform:uppercase;}
+.messages{flex:1;min-height:0;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px;scroll-behavior:smooth;}
+.messages::-webkit-scrollbar{width:4px;}
+.messages::-webkit-scrollbar-thumb{background:var(--blue-dim);border-radius:2px;}
+.msg{display:flex;gap:8px;max-width:95%;animation:msgIn 0.3s ease;}
+@keyframes msgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.msg.user{align-self:flex-end;flex-direction:row-reverse;}
+.avatar{width:30px;height:30px;flex-shrink:0;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;}
+.msg.bot .avatar{background:rgba(0,180,255,0.15);border:1px solid var(--border);}
+.msg.user .avatar{background:rgba(0,255,200,0.15);border:1px solid rgba(0,255,200,0.3);}
+.bubble{padding:10px 14px;border-radius:12px;font-size:12px;line-height:1.6;word-break:break-word;}
+.msg.bot .bubble{background:rgba(0,30,70,0.8);border:1px solid var(--border);border-radius:4px 12px 12px 12px;}
+.msg.user .bubble{background:linear-gradient(135deg,rgba(0,100,180,0.6),rgba(0,60,120,0.6));border:1px solid rgba(0,180,255,0.3);border-radius:12px 4px 12px 12px;}
+.typing-indicator{display:flex;gap:4px;padding:4px 0;}
+.typing-indicator span{width:6px;height:6px;border-radius:50%;background:var(--blue-glow);animation:typingDot 1.2s ease-in-out infinite;}
+.typing-indicator span:nth-child(2){animation-delay:0.2s}
+.typing-indicator span:nth-child(3){animation-delay:0.4s}
+@keyframes typingDot{0%,60%,100%{transform:translateY(0);opacity:0.4}30%{transform:translateY(-6px);opacity:1}}
+.chat-input-wrap{flex-shrink:0;padding:14px;border-top:1px solid var(--border);display:flex;gap:8px;align-items:center;}
+.chat-input{flex:1;padding:10px 14px;background:rgba(0,20,50,0.8);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:'Exo 2',sans-serif;font-size:12px;outline:none;transition:border-color 0.2s;}
+.chat-input::placeholder{color:var(--text-dim);}
+.chat-input:focus{border-color:var(--blue-glow);box-shadow:0 0 15px rgba(0,180,255,0.2);}
+.send-btn{width:36px;height:36px;border-radius:9px;border:1px solid var(--accent);background:rgba(0,255,200,0.1);color:var(--accent);font-size:14px;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.send-btn:hover{background:var(--accent);color:#000;box-shadow:0 0 20px rgba(0,255,200,0.4);transform:scale(1.05);}
+@media(max-width:768px){.main{grid-template-columns:1fr;grid-template-rows:auto 350px auto;overflow-y:auto}.panel,.chat-panel{border:none;border-bottom:1px solid var(--border)}}
+</style>
+</head>
+<body>
+<canvas id="stars"></canvas>
+
+<div class="page active" id="page-intro">
+  <div class="intro-inner">
+    <div class="intro-sat">🛰️</div>
+    <div class="intro-title">SATELLITE ORIGAMI</div>
+    <div class="intro-sub">DESIGNER · v4.0 · CVAE + BM25 RAG + GNN</div>
+    <div class="intro-tagline">
+      Generative design platform for deployable space structures.<br>
+      Fold-pattern synthesis powered by Conditional Variational Autoencoders,<br>
+      Graph Neural Network classification &amp; BM25 retrieval-augmented AI.
+    </div>
+    <button class="intro-enter" onclick="goTo('login')">▶&nbsp;&nbsp;ENTER SYSTEM</button>
+    <div class="intro-badges">
+      <div class="badge">CVAE GENERATION</div>
+      <div class="badge">BM25 RAG CHAT</div>
+      <div class="badge">GNN CLASSIFIER</div>
+      <div class="badge">THREE.JS 3D VIEWER</div>
+      <div class="badge">ETH ZURICH DATASET</div>
+    </div>
+  </div>
+</div>
+
+<div class="page" id="page-login">
+  <div class="login-card" style="margin:auto;">
+    <div class="login-logo">
+      <div class="login-icon">🛰️</div>
+      <div>
+        <div class="login-logo-title">SATELLITE ORIGAMI</div>
+        <div class="login-logo-sub">SECURE ACCESS PORTAL</div>
+      </div>
+    </div>
+    <div class="login-heading">◈ OPERATOR AUTHENTICATION</div>
+    <div class="login-error" id="login-err">Invalid credentials. Use guest access below.</div>
+    <div class="field">
+      <label>OPERATOR ID</label>
+      <input type="text" id="uid" placeholder="Enter operator ID" onkeypress="if(event.key==='Enter')doLogin()">
+    </div>
+    <div class="field">
+      <label>ACCESS KEY</label>
+      <input type="password" id="pwd" placeholder="Enter access key" onkeypress="if(event.key==='Enter')doLogin()">
+    </div>
+    <button class="login-btn" onclick="doLogin()">◈ AUTHENTICATE &amp; LAUNCH</button>
+    <div class="login-div">— OR —</div>
+    <button class="guest-btn" onclick="loginAs('GUEST')">◌ CONTINUE AS GUEST OBSERVER</button>
+    <div class="login-back">← <span onclick="goTo('intro')">BACK TO INTRO</span></div>
+  </div>
+</div>
+
+<div class="page" id="page-app">
+<div class="shell">
+  <header>
+    <div class="logo">
+      <div class="logo-icon">🛰️</div>
+      <div class="logo-text">
+        <div class="logo-title">SATELLITE ORIGAMI DESIGNER</div>
+        <div class="logo-sub">CVAE · BM25 RAG · GNN CLASSIFIER · THREE.JS</div>
+      </div>
+    </div>
+    <div class="hdr-right">
+      <div class="user-chip">👤 <span id="username-lbl">GUEST</span></div>
+      <div class="status-bar">
+        <div class="status-dot" id="sdot"></div>
+        <span id="status-text">CONNECTING…</span>
+      </div>
+      <button class="exit-btn" onclick="goTo('intro')">⏏ EXIT</button>
+    </div>
+  </header>
+  <div class="main">
+    <div class="panel">
+      <div class="panel-title">⬡ Configure Satellite</div>
+      <div class="part-card" style="--card-color:#4488ff">
+        <div class="part-head"><div class="part-icon">🔆</div><div class="part-name">Solar Panels</div></div>
+        <div class="part-desc">Miura-ori rigid fold — photovoltaic power array</div>
+        <div class="counter">
+          <button class="counter-btn" onclick="chg('solar_panel',-1)">−</button>
+          <span class="counter-val" id="solar_panel">2</span>
+          <button class="counter-btn" onclick="chg('solar_panel',1)">+</button>
+        </div>
+      </div>
+      <div class="part-card" style="--card-color:#00ffcc">
+        <div class="part-head"><div class="part-icon">📡</div><div class="part-name">Antenna</div></div>
+        <div class="part-desc">Radial crease parabolic dish — Ka/Ku RF band</div>
+        <div class="counter">
+          <button class="counter-btn" onclick="chg('antenna',-1)">−</button>
+          <span class="counter-val" id="antenna">1</span>
+          <button class="counter-btn" onclick="chg('antenna',1)">+</button>
+        </div>
+      </div>
+      <div class="part-card" style="--card-color:#bb66ff">
+        <div class="part-head"><div class="part-icon">🪩</div><div class="part-name">Reflector</div></div>
+        <div class="part-desc">Waterbomb concave fold — EM wave focusing</div>
+        <div class="counter">
+          <button class="counter-btn" onclick="chg('reflector',-1)">−</button>
+          <span class="counter-val" id="reflector">1</span>
+          <button class="counter-btn" onclick="chg('reflector',1)">+</button>
+        </div>
+      </div>
+      <div class="part-card" style="--card-color:#ffaa00">
+        <div class="part-head"><div class="part-icon">🏗️</div><div class="part-name">Truss</div></div>
+        <div class="part-desc">Yoshimura cylindrical fold — structural backbone</div>
+        <div class="counter">
+          <button class="counter-btn" onclick="chg('truss',-1)">−</button>
+          <span class="counter-val" id="truss">1</span>
+          <button class="counter-btn" onclick="chg('truss',1)">+</button>
+        </div>
+      </div>
+      <button class="gen-btn" id="gen-btn" onclick="genBoth()">◈ GENERATE SATELLITE</button>
+    </div>
+    <div class="viewer">
+      <div class="corner corner-tl"></div><div class="corner corner-tr"></div>
+      <div class="corner corner-bl"></div><div class="corner corner-br"></div>
+      <div class="view-tabs">
+        <button class="view-tab active" id="tab-png" onclick="switchTab('png')">◈ 2D BLUEPRINT</button>
+        <button class="view-tab" id="tab-3d" onclick="switchTab('3d')">◈ 3D INTERACTIVE</button>
+      </div>
+      <div class="view-content">
+        <div id="png-view">
+          <div class="placeholder-wrap" id="placeholder">
+            <div class="placeholder-icon">🛰️</div>
+            <div class="placeholder-text">CONFIGURE &amp; GENERATE</div>
+          </div>
+          <div class="spinner-wrap" id="spinner">
+            <div class="spinner"></div>
+            <div class="spinner-text">GENERATING…</div>
+          </div>
+          <img id="sat-img" alt="Generated Satellite">
+          <div id="png-hud">◈ ORIGAMI SATELLITE — CVAE GENERATED</div>
+        </div>
+        <div id="threejs-view">
+          <div class="three-spinner" id="three-spinner">
+            <div class="spinner"></div>
+            <div class="spinner-text">BUILDING 3D MODEL…</div>
+          </div>
+          <canvas id="three-canvas"></canvas>
+          <div class="three-hint">🖱 DRAG TO ROTATE · SCROLL TO ZOOM · RIGHT-DRAG TO PAN</div>
+        </div>
+      </div>
+    </div>
+    <div class="chat-panel">
+      <div class="chat-header">◈ AI ASSISTANT</div>
+      <div class="messages" id="msgs">
+        <div class="msg bot">
+          <div class="avatar">🛰️</div>
+          <div class="bubble">System online. Ask me about origami folding, satellite structures, CVAE generation, or the ETH Zurich dataset.</div>
+        </div>
+      </div>
+      <div class="chat-input-wrap">
+        <input class="chat-input" id="inp" placeholder="Ask about your satellite…" onkeypress="if(event.key==='Enter')send()">
+        <button class="send-btn" onclick="send()">➤</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<script>
+const canvas=document.getElementById('stars');
+const ctx=canvas.getContext('2d');
+let stars=[];
+function resizeCanvas(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;}
+function initStars(){stars=[];for(let i=0;i<200;i++)stars.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*1.5,speed:Math.random()*0.3+0.05,opacity:Math.random(),twinkle:Math.random()*Math.PI*2});}
+function drawStars(){ctx.clearRect(0,0,canvas.width,canvas.height);stars.forEach(s=>{s.twinkle+=0.02;s.opacity=0.3+0.7*Math.abs(Math.sin(s.twinkle));s.y-=s.speed;if(s.y<0){s.y=canvas.height;s.x=Math.random()*canvas.width;}ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(180,230,255,${s.opacity})`;ctx.fill();});requestAnimationFrame(drawStars);}
+resizeCanvas();initStars();drawStars();
+window.addEventListener('resize',()=>{resizeCanvas();initStars();});
+
+function goTo(id){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById('page-'+id).classList.add('active');if(id==='app')health();}
+
+const CREDS={'admin':'1234','satellite':'space','sastra':'sat2024'};
+function doLogin(){const uid=document.getElementById('uid').value.trim();const pwd=document.getElementById('pwd').value;const err=document.getElementById('login-err');if(uid in CREDS&&CREDS[uid]===pwd){err.style.display='none';loginAs(uid.toUpperCase());}else{err.style.display='block';}}
+function loginAs(name){document.getElementById('username-lbl').textContent=name;goTo('app');}
+
+// ── API URL — Render deployment, accessible worldwide ─────────────────────
+const API = 'https://satellite-origami-model.onrender.com';
+const cfg={solar_panel:2,antenna:1,reflector:1,truss:1};
+let currentTab='png';
+function chg(part,delta){cfg[part]=Math.max(1,cfg[part]+delta);document.getElementById(part).textContent=cfg[part];}
+
+function switchTab(tab){currentTab=tab;document.getElementById('tab-png').classList.toggle('active',tab==='png');document.getElementById('tab-3d').classList.toggle('active',tab==='3d');document.getElementById('png-view').style.display=tab==='png'?'flex':'none';document.getElementById('threejs-view').style.display=tab==='3d'?'block':'none';if(tab==='3d'&&threeRenderer)threeRenderer.setSize(getViewerSize().w,getViewerSize().h);}
+function getViewerSize(){const el=document.getElementById('threejs-view');return{w:el.clientWidth||800,h:el.clientHeight||500};}
+
+async function genBoth(){const btn=document.getElementById('gen-btn');btn.classList.add('loading');btn.textContent='◌ GENERATING…';await Promise.all([generatePNG(),generate3D()]);btn.classList.remove('loading');btn.textContent='◈ GENERATE SATELLITE';}
+
+async function generatePNG(){
+  document.getElementById('placeholder').style.display='none';
+  document.getElementById('sat-img').style.display='none';
+  document.getElementById('png-hud').style.display='none';
+  document.getElementById('spinner').style.display='flex';
+  try{
+    const r=await fetch(API+"/api/generate",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(cfg)});
+    const d=await r.json();
+    const img=document.getElementById('sat-img');
+    img.onload=()=>{img.style.display='block';document.getElementById('png-hud').style.display='block';};
+    img.src="data:image/png;base64,"+d.image;
+  }catch(e){document.getElementById('placeholder').style.display='block';addMsg('bot','⚠ Image generation failed. Backend may be waking up — wait 60s and try again.');}
+  document.getElementById('spinner').style.display='none';
+}
+
+let threeScene=null,threeCamera=null,threeRenderer=null,threeGroup=null,animFrameId=null;
+let isDragging=false,isRightDrag=false,prevMouse={x:0,y:0};
+let spherical={theta:-0.5,phi:1.2,radius:18},panOffset={x:0,y:0};
+
+function initThree(){
+  if(threeRenderer)return;
+  const container=document.getElementById('threejs-view');
+  const w=container.clientWidth||800,h=container.clientHeight||500;
+  threeScene=new THREE.Scene();threeScene.background=new THREE.Color(0x010812);
+  threeScene.add(new THREE.AmbientLight(0x223344,1.5));
+  const dLight=new THREE.DirectionalLight(0x00b4ff,1.2);dLight.position.set(10,20,10);threeScene.add(dLight);
+  const dLight2=new THREE.DirectionalLight(0x00ffcc,0.6);dLight2.position.set(-10,-5,-10);threeScene.add(dLight2);
+  const grid=new THREE.GridHelper(30,30,0x0a1a2a,0x0a1a2a);grid.position.y=-2;threeScene.add(grid);
+  threeCamera=new THREE.PerspectiveCamera(45,w/h,0.1,500);updateCameraPosition();
+  threeRenderer=new THREE.WebGLRenderer({canvas:document.getElementById('three-canvas'),antialias:true,alpha:true});
+  threeRenderer.setSize(w,h);threeRenderer.setPixelRatio(window.devicePixelRatio);
+  threeGroup=new THREE.Group();threeScene.add(threeGroup);
+  const cvs=document.getElementById('three-canvas');
+  cvs.addEventListener('mousedown',e=>{isDragging=true;isRightDrag=e.button===2;prevMouse={x:e.clientX,y:e.clientY};});
+  cvs.addEventListener('contextmenu',e=>e.preventDefault());
+  window.addEventListener('mouseup',()=>isDragging=false);
+  window.addEventListener('mousemove',e=>{if(!isDragging)return;const dx=e.clientX-prevMouse.x,dy=e.clientY-prevMouse.y;prevMouse={x:e.clientX,y:e.clientY};if(isRightDrag){panOffset.x-=dx*0.02;panOffset.y+=dy*0.02;}else{spherical.theta-=dx*0.008;spherical.phi=Math.max(0.1,Math.min(Math.PI-0.1,spherical.phi-dy*0.008));}updateCameraPosition();});
+  cvs.addEventListener('wheel',e=>{spherical.radius=Math.max(4,Math.min(60,spherical.radius+e.deltaY*0.03));updateCameraPosition();});
+  let lastTouchDist=0;
+  cvs.addEventListener('touchstart',e=>{if(e.touches.length===1){isDragging=true;prevMouse={x:e.touches[0].clientX,y:e.touches[0].clientY};}if(e.touches.length===2)lastTouchDist=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);});
+  cvs.addEventListener('touchend',()=>isDragging=false);
+  cvs.addEventListener('touchmove',e=>{e.preventDefault();if(e.touches.length===1&&isDragging){const dx=e.touches[0].clientX-prevMouse.x,dy=e.touches[0].clientY-prevMouse.y;prevMouse={x:e.touches[0].clientX,y:e.touches[0].clientY};spherical.theta-=dx*0.008;spherical.phi=Math.max(0.1,Math.min(Math.PI-0.1,spherical.phi-dy*0.008));updateCameraPosition();}if(e.touches.length===2){const dist=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);spherical.radius=Math.max(4,Math.min(60,spherical.radius-(dist-lastTouchDist)*0.05));lastTouchDist=dist;updateCameraPosition();}},{passive:false});
+  animate();
+}
+function updateCameraPosition(){if(!threeCamera)return;const x=spherical.radius*Math.sin(spherical.phi)*Math.sin(spherical.theta),y=spherical.radius*Math.cos(spherical.phi),z=spherical.radius*Math.sin(spherical.phi)*Math.cos(spherical.theta);threeCamera.position.set(x+panOffset.x,y+panOffset.y,z);threeCamera.lookAt(panOffset.x,panOffset.y,0);}
+function animate(){animFrameId=requestAnimationFrame(animate);if(threeRenderer&&threeScene&&threeCamera)threeRenderer.render(threeScene,threeCamera);}
+
+async function generate3D(){
+  document.getElementById('three-spinner').style.display='flex';
+  if(!threeRenderer)initThree();
+  try{
+    const r=await fetch(API+"/api/generate3d",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(cfg)});
+    const data=await r.json();buildThreeScene(data.meshes);
+  }catch(e){console.error("3D generation failed:",e);addMsg('bot','⚠ 3D generation failed. Backend may be waking up.');}
+  document.getElementById('three-spinner').style.display='none';
+}
+
+function buildThreeScene(meshes){
+  while(threeGroup.children.length)threeGroup.remove(threeGroup.children[0]);
+  meshes.forEach(mesh=>{
+    const verts=mesh.vertices,indices=mesh.indices,color=mesh.color,opacity=mesh.opacity,lines=mesh.lines,lineCol=mesh.line_color;
+    if(indices&&indices.length>0){
+      const geo=new THREE.BufferGeometry();
+      const positions=new Float32Array(verts.length*3);
+      verts.forEach((v,i)=>{positions[i*3]=v[0];positions[i*3+1]=v[1];positions[i*3+2]=v[2];});
+      geo.setAttribute('position',new THREE.BufferAttribute(positions,3));
+      geo.setIndex(indices);geo.computeVertexNormals();
+      threeGroup.add(new THREE.Mesh(geo,new THREE.MeshPhongMaterial({color:new THREE.Color(color),transparent:true,opacity,side:THREE.DoubleSide,shininess:80,specular:new THREE.Color(0x334455)})));
+      threeGroup.add(new THREE.LineSegments(new THREE.EdgesGeometry(geo),new THREE.LineBasicMaterial({color:0x001133,transparent:true,opacity:0.3})));
+    }
+    if(lines&&lines.length>=2){
+      const lp=new Float32Array(lines.length*3);
+      lines.forEach((p,i)=>{lp[i*3]=p[0];lp[i*3+1]=p[1];lp[i*3+2]=p[2];});
+      const lg=new THREE.BufferGeometry();lg.setAttribute('position',new THREE.BufferAttribute(lp,3));
+      threeGroup.add(new THREE.LineSegments(lg,new THREE.LineBasicMaterial({color:new THREE.Color(lineCol),linewidth:2,transparent:true,opacity:1.0})));
+    }
+  });
+  const box=new THREE.Box3().setFromObject(threeGroup);
+  threeGroup.position.sub(box.getCenter(new THREE.Vector3()));
+  const{w,h}=getViewerSize();
+  threeRenderer.setSize(w,h);threeCamera.aspect=w/h;threeCamera.updateProjectionMatrix();
+}
+
+function scrollToBottom(){const msgs=document.getElementById('msgs');msgs.scrollTop=msgs.scrollHeight;}
+function addMsg(role,text){
+  const msgs=document.getElementById('msgs');
+  const div=document.createElement('div');div.className='msg '+role;
+  div.innerHTML=`<div class="avatar">${role==='bot'?'🛰️':'👤'}</div><div class="bubble"></div>`;
+  msgs.appendChild(div);scrollToBottom();
+  const bubble=div.querySelector('.bubble');
+  if(role==='bot'){let i=0;function typeChar(){if(i<text.length){bubble.textContent+=text[i++];scrollToBottom();setTimeout(typeChar,14);}}typeChar();}
+  else{bubble.textContent=text;scrollToBottom();}
+}
+function addTyping(){const msgs=document.getElementById('msgs');const div=document.createElement('div');div.className='msg bot';div.id='typing-indicator';div.innerHTML='<div class="avatar">🛰️</div><div class="bubble"><div class="typing-indicator"><span></span><span></span><span></span></div></div>';msgs.appendChild(div);scrollToBottom();}
+function removeTyping(){const t=document.getElementById('typing-indicator');if(t)t.remove();}
+async function send(){const inp=document.getElementById('inp');const msg=inp.value.trim();if(!msg)return;inp.value='';addMsg('user',msg);addTyping();try{const r=await fetch(API+"/api/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({message:msg,config:cfg})});const d=await r.json();removeTyping();addMsg('bot',d.reply);}catch(e){removeTyping();addMsg('bot','⚠ Connection error. Backend may be waking up — wait 60s and retry.');}}
+
+// ── HEALTH CHECK — retries for 90s to handle Render free tier wakeup ─────
+async function health(){
+  const sdot=document.getElementById('sdot');
+  const stxt=document.getElementById('status-text');
+  stxt.textContent='WAKING UP...';
+  stxt.classList.remove('ok');
+  sdot.classList.remove('ok');
+  for(let attempt=0;attempt<15;attempt++){
+    try{
+      const controller=new AbortController();
+      const tid=setTimeout(()=>controller.abort(),10000);
+      const r=await fetch(API+"/api/health",{method:"GET",cache:"no-cache",signal:controller.signal});
+      clearTimeout(tid);
+      if(r.ok){
+        sdot.classList.add('ok');
+        stxt.textContent='BACKEND ONLINE';
+        stxt.classList.add('ok');
+        return;
+      }
+    }catch(e){
+      stxt.textContent='WAKING UP... '+(attempt+1)*6+'s';
+    }
+    await new Promise(res=>setTimeout(res,6000));
+  }
+  stxt.textContent='BACKEND OFFLINE — REFRESH PAGE';
+  setTimeout(health,30000);
+}
+
+window.addEventListener('load',()=>{switchTab('png');initThree();health();});
+window.addEventListener('resize',()=>{resizeCanvas();initStars();if(threeRenderer){const{w,h}=getViewerSize();threeRenderer.setSize(w,h);if(threeCamera){threeCamera.aspect=w/h;threeCamera.updateProjectionMatrix();}}});
+</script>
+</body>
+</html>
